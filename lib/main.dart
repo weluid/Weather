@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'block/weather_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
   runApp(const WeatherApp());
@@ -13,6 +15,17 @@ class WeatherApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      locale: Locale('uk'),
+      supportedLocales: [
+        Locale('en'), // English
+        Locale('uk'), // Ukrainian
+      ],
       home: MyHomePage(),
     );
   }
@@ -38,6 +51,10 @@ class TestScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context)!.weather),
+        centerTitle: true,
+      ),
       body: BlocConsumer<WeatherBloc, WeatherState>(
         builder: (context, state) {
           return _buildParentWidget(context, state);
