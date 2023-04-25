@@ -21,7 +21,7 @@ class WeatherApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      locale: Locale('uk'),
+      locale: Locale('en'),
       supportedLocales: [
         Locale('en'), // English
         Locale('uk'), // Ukrainian
@@ -52,7 +52,7 @@ class TestScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.weather),
+        title: Text(AppLocalizations.of(context).weather),
         centerTitle: true,
       ),
       body: BlocConsumer<WeatherBloc, WeatherState>(
