@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:weather/utilities/constants.dart';
 
 class SearchPage extends StatefulWidget {
@@ -10,14 +11,16 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   late String cityName;
+  Color backgroundColor = const Color(0xFFf4f4fc);
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // automaticallyImplyLeading: false, // remove back button
         elevation: 0,
-        backgroundColor: const Color(0xFFf4f4fc),
+        // remove drop shadow
+        backgroundColor: backgroundColor,
         centerTitle: true,
         title: const Text("Search for city"),
         titleTextStyle: const TextStyle(
@@ -27,24 +30,42 @@ class _SearchPageState extends State<SearchPage> {
         ),
         iconTheme: const IconThemeData(color: mainDarkColor),
       ),
-      backgroundColor: const Color(0xFFf4f4fc),
+      backgroundColor: backgroundColor,
       body: SafeArea(
         child: Column(
           children: [
             Container(
               padding: const EdgeInsets.all(25.0),
-              child: TextField(
-                style: const TextStyle(
-                  color: Colors.black,
+              child: Form(
+                key: _formKey,
+                child: TextFormField(
+                  // Restricting special character and numbers input
+                  inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[a-z A-Z]"))],
+                  style: const TextStyle(
+                    color: Colors.black,
+                  ),
+                  decoration: textFieldInputDecoration,
+                  onChanged: (value) {
+                    cityName = value;
+                  },
+                  validator: (value) {
+                    if (value!.isNotEmpty && value.length > 3) {
+                      return null;
+                    } else if (value.length < 4 && value.isNotEmpty) {
+                      return 'Minimum character length is 4';
+                    } else {
+                      return 'Please enter city name';
+                    }
+                  },
                 ),
-                decoration: textFieldInputDecoration,
-                onChanged: (value) {
-                  cityName = value;
-                },
               ),
             ),
             GestureDetector(
               onTap: () {
+                // print(cityName);
+                if (!_formKey.currentState!.validate()) {
+                  return;
+                }
                 Navigator.pop(context, cityName);
               },
               child: Container(
