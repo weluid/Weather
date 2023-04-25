@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'block/weather_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'screens/search_page.dart';
+import 'utilities/constants.dart';
 
 void main() {
   runApp(const WeatherApp());
@@ -14,15 +16,17 @@ class WeatherApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      localizationsDelegates: [
+    return MaterialApp(
+      theme: ThemeData(fontFamily: 'Poppins'),
+      debugShowCheckedModeBanner: false,
+      localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      locale: Locale('en'),
-      supportedLocales: [
+      locale: const Locale('en'),
+      supportedLocales: const [
         Locale('en'), // English
         Locale('uk'), // Ukrainian
       ],
@@ -65,27 +69,41 @@ class TestScreen extends StatelessWidget {
   }
 
   Widget _buildParentWidget(BuildContext context, WeatherState state) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          _buildTextWidget(state),
-          const SizedBox(
-            height: 20,
-          ),
-          TextButton(
-            onPressed: () {
-              context.read<WeatherBloc>().add(ButtonTappedEvent());
-            },
-            child: const Text('Click me'),
-          ),
-          TextButton(
-            onPressed: () {
-              context.read<WeatherBloc>().add(SecondButtonTappedEvent());
-            },
-            child: const Text('Click me again'),
-          ),
-        ],
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const SearchPage(),
+            ),
+          );
+        },
+        backgroundColor: buttonColor,
+        child: const Icon(Icons.search),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            _buildTextWidget(state),
+            const SizedBox(
+              height: 20,
+            ),
+            TextButton(
+              onPressed: () {
+                context.read<WeatherBloc>().add(ButtonTappedEvent());
+              },
+              child: const Text('Click me'),
+            ),
+            TextButton(
+              onPressed: () {
+                context.read<WeatherBloc>().add(SecondButtonTappedEvent());
+              },
+              child: const Text('Click me again'),
+            ),
+          ],
+        ),
       ),
     );
   }
