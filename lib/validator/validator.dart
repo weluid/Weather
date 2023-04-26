@@ -1,6 +1,6 @@
 class Validator {
   static WeatherValidateCode cityValidator(String value) {
-    RegExp validCity = RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%0-9-]');
+    RegExp validCity = RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%0-9]');
 
     if (value.trim().isEmpty) {
       return WeatherValidateCode.emptyCityName;
@@ -14,9 +14,4 @@ class Validator {
   }
 }
 
-enum WeatherValidateCode {
-  validCityName,
-  emptyCityName,
-  notEnoughSymbol,
-  invalidCityName
-}
+enum WeatherValidateCode { validCityName, emptyCityName, notEnoughSymbol, invalidCityName }

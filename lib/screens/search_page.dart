@@ -41,8 +41,8 @@ class _SearchPageState extends State<SearchPage> {
               child: Form(
                 key: _formKey,
                 child: TextFormField(
-                  // Restricting special character and numbers input
-                  inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[a-z A-Z]"))],
+                  // // Restricting special character and numbers input
+                  // inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[a-z A-Z]"))],
                   style: const TextStyle(
                     color: Colors.black,
                   ),
@@ -51,9 +51,8 @@ class _SearchPageState extends State<SearchPage> {
                     cityName = value;
                   },
                   validator: (value) {
-
                     WeatherValidateCode code = Validator.cityValidator(value ?? "");
-                    switch(code) {
+                    switch (code) {
                       case WeatherValidateCode.validCityName:
                         return null;
                       case WeatherValidateCode.emptyCityName:

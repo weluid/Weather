@@ -1,3 +1,6 @@
 {
-  "weather": "Weather"
+  "weather": "Weather",
+  "emptyCityName": "Please enter city name",
+  "notEnoughSymbol": "Minimum character length is 4",
+  "invalidCityName": "Invalid city name"
 }
