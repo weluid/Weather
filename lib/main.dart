@@ -11,9 +11,14 @@ void main() {
   runApp(const WeatherApp());
 }
 
-class WeatherApp extends StatelessWidget {
+class WeatherApp extends StatefulWidget {
   const WeatherApp({super.key});
 
+  @override
+  State<WeatherApp> createState() => _WeatherAppState();
+}
+
+class _WeatherAppState extends State<WeatherApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -30,14 +35,19 @@ class WeatherApp extends StatelessWidget {
         Locale('en'), // English
         Locale('uk'), // Ukrainian
       ],
-      home: MyHomePage(),
+      home: const MyHomePage(),
     );
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
 
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<WeatherBloc>(
@@ -49,9 +59,14 @@ class MyHomePage extends StatelessWidget {
   }
 }
 
-class TestScreen extends StatelessWidget {
+class TestScreen extends StatefulWidget {
   const TestScreen({super.key});
 
+  @override
+  State<TestScreen> createState() => _TestScreenState();
+}
+
+class _TestScreenState extends State<TestScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,13 +86,19 @@ class TestScreen extends StatelessWidget {
   Widget _buildParentWidget(BuildContext context, WeatherState state) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
+        onPressed: () async {
+          final city = await Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => const SearchPage(),
             ),
           );
+          if (city != null) {
+            BlocProvider.of<WeatherBloc>(context).add(
+              CityNameEvent(city: city),
+            );
+          }
+          print('City after: $city'); //test city
         },
         backgroundColor: buttonColor,
         child: const Icon(Icons.search),
