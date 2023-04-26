@@ -3,37 +3,42 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   test('Empty city test', () {
-    String result = Validator.cityValidator('');
-    expect(result, 'Please enter city name');
+    WeatherValidateCode result = Validator.cityValidator('');
+    expect(result, WeatherValidateCode.emptyCityName);
   });
 
   test('Empty city test2', () {
-    String result = Validator.cityValidator('        ');
-    expect(result, 'Please enter city name');
+    WeatherValidateCode result = Validator.cityValidator('        ');
+    expect(result, WeatherValidateCode.emptyCityName);
   });
 
   test('Short city name', () {
-    String result = Validator.cityValidator('dd');
-    expect(result, 'Minimum character length is 4');
+    WeatherValidateCode result = Validator.cityValidator('dd');
+    expect(result, WeatherValidateCode.notEnoughSymbol);
   });
 
   test('Number in name', () {
-    String result = Validator.cityValidator('Hello12');
-    expect(result, "Invalid city name");
+    WeatherValidateCode result = Validator.cityValidator('Hello12');
+    expect(result, WeatherValidateCode.invalidCityName);
   });
 
   test('Symbols in name', () {
-    String result = Validator.cityValidator('dekovalov@gmail.com');
-    expect(result, "Invalid city name");
+    WeatherValidateCode result = Validator.cityValidator('dekovalov@gmail.com');
+    expect(result, WeatherValidateCode.invalidCityName);
   });
 
   test('Valid city', () {
-    String result = Validator.cityValidator('Kyiv');
-    expect(result, 'Valid city name. Yey!');
+    WeatherValidateCode result = Validator.cityValidator('Kyiv');
+    expect(result, WeatherValidateCode.validCityName);
   });
 
-  test('Valid city', () {
-    String result = Validator.cityValidator('San Francisco');
-    expect(result, 'Valid city name. Yey!');
+  test('Valid city2', () {
+    WeatherValidateCode result = Validator.cityValidator('San Francisco');
+    expect(result, WeatherValidateCode.validCityName);
+  });
+
+  test('Valid city3', () {
+    WeatherValidateCode result = Validator.cityValidator('Ай-Петрі');
+    expect(result, WeatherValidateCode.validCityName);
   });
 }
