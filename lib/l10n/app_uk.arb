@@ -1,6 +1,6 @@
 {
   "weather": "Погода",
     "emptyCityName": "Будь ласка, введіть назву міста",
-    "notEnoughSymbol": "Мінімальна довжина символів - 4",
-    "invalidCityName": "Неправильна назва міста"
+    "invalidCityName": "Неправильна назва міста",
+      "getWeather": "Дізнатися погоду"
 }

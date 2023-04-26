@@ -12,11 +12,6 @@ void main() {
     expect(result, WeatherValidateCode.emptyCityName);
   });
 
-  test('Short city name', () {
-    WeatherValidateCode result = Validator.cityValidator('dd');
-    expect(result, WeatherValidateCode.notEnoughSymbol);
-  });
-
   test('Number in name', () {
     WeatherValidateCode result = Validator.cityValidator('Hello12');
     expect(result, WeatherValidateCode.invalidCityName);

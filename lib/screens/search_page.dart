@@ -12,17 +12,17 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  late String cityName;
-  Color backgroundColor = const Color(0xFFf4f4fc);
+  late String _cityName;
+  final Color _backgroundColor = const Color(0xFFf4f4fc);
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
         // remove drop shadow
-        backgroundColor: backgroundColor,
+        elevation: 0,
+        backgroundColor: _backgroundColor,
         centerTitle: true,
         title: const Text("Search for city"),
         titleTextStyle: const TextStyle(
@@ -32,23 +32,21 @@ class _SearchPageState extends State<SearchPage> {
         ),
         iconTheme: const IconThemeData(color: mainDarkColor),
       ),
-      backgroundColor: backgroundColor,
+      backgroundColor: _backgroundColor,
       body: SafeArea(
         child: Column(
           children: [
             Container(
-              padding: const EdgeInsets.all(25.0),
+              padding: const EdgeInsets.all(25),
               child: Form(
                 key: _formKey,
                 child: TextFormField(
-                  // // Restricting special character and numbers input
-                  // inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[a-z A-Z]"))],
                   style: const TextStyle(
                     color: Colors.black,
                   ),
                   decoration: textFieldInputDecoration,
                   onChanged: (value) {
-                    cityName = value;
+                    _cityName = value;
                   },
                   validator: (value) {
                     WeatherValidateCode code = Validator.cityValidator(value ?? "");
@@ -57,8 +55,6 @@ class _SearchPageState extends State<SearchPage> {
                         return null;
                       case WeatherValidateCode.emptyCityName:
                         return AppLocalizations.of(context).emptyCityName;
-                      case WeatherValidateCode.notEnoughSymbol:
-                        return AppLocalizations.of(context).notEnoughSymbol;
                       case WeatherValidateCode.invalidCityName:
                         return AppLocalizations.of(context).invalidCityName;
                     }
@@ -68,11 +64,10 @@ class _SearchPageState extends State<SearchPage> {
             ),
             GestureDetector(
               onTap: () {
-                // print(cityName);
                 if (!_formKey.currentState!.validate()) {
                   return;
                 }
-                Navigator.pop(context, cityName);
+                Navigator.pop(context, _cityName);
               },
               child: Container(
                 height: 60,
@@ -81,10 +76,10 @@ class _SearchPageState extends State<SearchPage> {
                   borderRadius: BorderRadius.circular(22),
                   color: buttonColor,
                 ),
-                child: const Center(
+                child: Center(
                   child: Text(
-                    'Get Weather',
-                    style: TextStyle(fontSize: 20, color: Colors.white),
+                    AppLocalizations.of(context).getWeather,
+                    style: const TextStyle(fontSize: 20, color: Colors.white),
                   ),
                 ),
               ),

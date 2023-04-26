@@ -4,8 +4,6 @@ class Validator {
 
     if (value.trim().isEmpty) {
       return WeatherValidateCode.emptyCityName;
-    } else if (value.trim().isNotEmpty && value.trim().length < 4) {
-      return WeatherValidateCode.notEnoughSymbol;
     } else if (validCity.hasMatch(value.trim())) {
       return WeatherValidateCode.invalidCityName;
     } else {
@@ -14,4 +12,4 @@ class Validator {
   }
 }
 
-enum WeatherValidateCode { validCityName, emptyCityName, notEnoughSymbol, invalidCityName }
+enum WeatherValidateCode { validCityName, emptyCityName, invalidCityName }
