@@ -12,10 +12,6 @@ const textFieldInputDecoration = InputDecoration(
   filled: true,
   hoverColor: Colors.white,
   fillColor: Colors.white,
-  // icon: Icon(
-  //   Icons.search,
-  //   color: lightGreyColor,
-  // ),
   hintText: 'Enter City Name',
   hintStyle: TextStyle(
     color: lightGreyColor,

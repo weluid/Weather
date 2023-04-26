@@ -49,12 +49,12 @@ class _SearchPageState extends State<SearchPage> {
                     cityName = value;
                   },
                   validator: (value) {
-                    if (value!.isNotEmpty && value.length > 3) {
-                      return null;
-                    } else if (value.length < 4 && value.isNotEmpty) {
+                    if (value == null || value.trim().isEmpty) {
+                      return 'Please enter city name';
+                    } else if (value.trim().isNotEmpty && value.trim().length < 4) {
                       return 'Minimum character length is 4';
                     } else {
-                      return 'Please enter city name';
+                      return null;
                     }
                   },
                 ),
