@@ -98,7 +98,7 @@ class _TestScreenState extends State<TestScreen> {
               CityNameEvent(city: city),
             );
           }
-          print('City after: $city'); //test city
+          debugPrint('City after: $city'); //test city
         },
         backgroundColor: buttonColor,
         child: const Icon(Icons.search),
