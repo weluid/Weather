@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:weather/utilities/constants.dart';
+import 'package:weather/validator/validator.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -49,12 +51,17 @@ class _SearchPageState extends State<SearchPage> {
                     cityName = value;
                   },
                   validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return 'Please enter city name';
-                    } else if (value.trim().isNotEmpty && value.trim().length < 4) {
-                      return 'Minimum character length is 4';
-                    } else {
-                      return null;
+
+                    WeatherValidateCode code = Validator.cityValidator(value ?? "");
+                    switch(code) {
+                      case WeatherValidateCode.validCityName:
+                        return null;
+                      case WeatherValidateCode.emptyCityName:
+                        return AppLocalizations.of(context).emptyCityName;
+                      case WeatherValidateCode.notEnoughSymbol:
+                        return AppLocalizations.of(context).notEnoughSymbol;
+                      case WeatherValidateCode.invalidCityName:
+                        return AppLocalizations.of(context).invalidCityName;
                     }
                   },
                 ),
