@@ -1,3 +1,6 @@
 {
-  "weather": "Weather"
+  "weather": "Weather",
+  "emptyCityName": "Please enter city name",
+  "invalidCityName": "Invalid city name",
+  "getWeather": "Get Weather"
 }

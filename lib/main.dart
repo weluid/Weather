@@ -4,36 +4,50 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'block/weather_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'screens/search_page.dart';
+import 'utilities/constants.dart';
 
 void main() {
   runApp(const WeatherApp());
 }
 
-class WeatherApp extends StatelessWidget {
+class WeatherApp extends StatefulWidget {
   const WeatherApp({super.key});
 
   @override
+  State<WeatherApp> createState() => _WeatherAppState();
+}
+
+class _WeatherAppState extends State<WeatherApp> {
+  @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      localizationsDelegates: [
+    return MaterialApp(
+      theme: ThemeData(fontFamily: 'Lato'),
+      debugShowCheckedModeBanner: false,
+      localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      locale: Locale('en'),
-      supportedLocales: [
+      locale: const Locale('en'),
+      supportedLocales: const [
         Locale('en'), // English
         Locale('uk'), // Ukrainian
       ],
-      home: MyHomePage(),
+      home: const MyHomePage(),
     );
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
 
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<WeatherBloc>(
@@ -45,9 +59,14 @@ class MyHomePage extends StatelessWidget {
   }
 }
 
-class TestScreen extends StatelessWidget {
+class TestScreen extends StatefulWidget {
   const TestScreen({super.key});
 
+  @override
+  State<TestScreen> createState() => _TestScreenState();
+}
+
+class _TestScreenState extends State<TestScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,27 +84,47 @@ class TestScreen extends StatelessWidget {
   }
 
   Widget _buildParentWidget(BuildContext context, WeatherState state) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          _buildTextWidget(state),
-          const SizedBox(
-            height: 20,
-          ),
-          TextButton(
-            onPressed: () {
-              context.read<WeatherBloc>().add(ButtonTappedEvent());
-            },
-            child: const Text('Click me'),
-          ),
-          TextButton(
-            onPressed: () {
-              context.read<WeatherBloc>().add(SecondButtonTappedEvent());
-            },
-            child: const Text('Click me again'),
-          ),
-        ],
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          final city = await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const SearchPage(),
+            ),
+          );
+          if (city != null) {
+            BlocProvider.of<WeatherBloc>(context).add(
+              CityNameEvent(city: city),
+            );
+          }
+          debugPrint('City after: $city'); //test city
+        },
+        backgroundColor: buttonColor,
+        child: const Icon(Icons.search),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            _buildTextWidget(state),
+            const SizedBox(
+              height: 20,
+            ),
+            TextButton(
+              onPressed: () {
+                context.read<WeatherBloc>().add(ButtonTappedEvent());
+              },
+              child: const Text('Click me'),
+            ),
+            TextButton(
+              onPressed: () {
+                context.read<WeatherBloc>().add(SecondButtonTappedEvent());
+              },
+              child: const Text('Click me again'),
+            ),
+          ],
+        ),
       ),
     );
   }
