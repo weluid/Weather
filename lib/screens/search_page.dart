@@ -46,7 +46,7 @@ class _SearchPageState extends State<SearchPage> {
                   ),
                   decoration: textFieldInputDecoration,
                   onChanged: (value) {
-                    _cityName = value;
+                    _cityName = value.trim();
                   },
                   validator: (value) {
                     WeatherValidateCode code = Validator.cityValidator(value ?? "");
