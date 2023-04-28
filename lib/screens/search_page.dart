@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:weather/utilities/constants.dart';
 import 'package:weather/validator/validator.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:weather/components/button.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -62,28 +63,14 @@ class _SearchPageState extends State<SearchPage> {
                 ),
               ),
             ),
-            GestureDetector(
-              onTap: () {
-                if (!_formKey.currentState!.validate()) {
-                  return;
-                }
-                Navigator.pop(context, _cityName);
-              },
-              child: Container(
-                height: 60,
-                width: 200,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(22),
-                  color: buttonColor,
-                ),
-                child: Center(
-                  child: Text(
-                    AppLocalizations.of(context).getWeather,
-                    style: const TextStyle(fontSize: 20, color: Colors.white),
-                  ),
-                ),
-              ),
-            ),
+            MyButton(
+                buttonTitle: AppLocalizations.of(context).getWeather,
+                onTap: () {
+                  if (!_formKey.currentState!.validate()) {
+                    return;
+                  }
+                  Navigator.pop(context, _cityName);
+                })
           ],
         ),
       ),

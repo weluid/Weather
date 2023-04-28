@@ -2,5 +2,8 @@
   "weather": "Weather",
   "emptyCityName": "Please enter city name",
   "invalidCityName": "Invalid city name",
-  "getWeather": "Get Weather"
+  "getWeather": "Get Weather",
+  "error": "Error",
+  "somethingWrong": "Something wont wrong.\nPlease try again",
+  "tryAgain": "TRY AGAIN"
 }
