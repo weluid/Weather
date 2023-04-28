@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'screens/search_page.dart';
 import 'utilities/constants.dart';
+import 'widgets/loading_state.dart';
 
 void main() {
   runApp(const WeatherApp());
@@ -122,6 +123,17 @@ class _TestScreenState extends State<TestScreen> {
                 context.read<WeatherBloc>().add(SecondButtonTappedEvent());
               },
               child: const Text('Click me again'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const LoadingWeather(),
+                  ),
+                );
+              },
+              child: const Text('Loading State'),
             ),
           ],
         ),

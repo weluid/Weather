@@ -22,3 +22,11 @@ const textFieldInputDecoration = InputDecoration(
       ),
       borderSide: BorderSide.none),
 );
+
+const backgroundGradient = BoxDecoration(
+  gradient: LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [Color(0xff005C97), Color(0xff363795)],
+  ),
+);
