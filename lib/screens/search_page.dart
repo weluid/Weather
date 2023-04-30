@@ -25,7 +25,7 @@ class _SearchPageState extends State<SearchPage> {
         elevation: 0,
         backgroundColor: _backgroundColor,
         centerTitle: true,
-        title: const Text("Search for city"),
+        title: Text(AppLocalizations.of(context).searchCity),
         titleTextStyle: const TextStyle(
           color: mainDarkColor,
           fontWeight: FontWeight.w600,
