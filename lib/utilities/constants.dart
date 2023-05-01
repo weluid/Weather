@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 const lightGreyColor = Color(0xFFc1c1c7);
 const mainDarkColor = Color(0xFF3D3950);
-const buttonColor = Color(0xFFb8adf1);
+const buttonColor = Color(0xff025A97);
 
 const textFieldInputDecoration = InputDecoration(
   prefixIcon: Icon(
@@ -23,10 +23,8 @@ const textFieldInputDecoration = InputDecoration(
       borderSide: BorderSide.none),
 );
 
-const backgroundGradient = BoxDecoration(
-  gradient: LinearGradient(
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    colors: [Color(0xff005C97), Color(0xff363795)],
-  ),
+const backgroundGradient = LinearGradient(
+  begin: Alignment.topCenter,
+  end: Alignment.bottomCenter,
+  colors: [Color(0xff005C97), Color(0xff363795)],
 );

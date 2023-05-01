@@ -13,7 +13,7 @@ class _LoadingWeatherState extends State<LoadingWeather> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: backgroundGradient,
+      decoration: const BoxDecoration(gradient: backgroundGradient),
       child: const Center(
         child: SpinKitWave(
           color: Colors.white,

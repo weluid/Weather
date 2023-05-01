@@ -7,6 +7,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'screens/search_page.dart';
 import 'utilities/constants.dart';
 import 'widgets/loading_state.dart';
+import 'widgets/error_page.dart';
 
 void main() {
   runApp(const WeatherApp());
@@ -129,11 +130,11 @@ class _TestScreenState extends State<TestScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const LoadingWeather(),
+                    builder: (context) => const ErrorPage(),
                   ),
                 );
               },
-              child: const Text('Loading State'),
+              child: const Text('Error State'),
             ),
           ],
         ),
