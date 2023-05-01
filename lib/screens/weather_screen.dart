@@ -8,9 +8,14 @@ import 'package:weather/utilities/constants.dart';
 import 'package:weather/widgets/loading_state.dart';
 import 'package:weather/widgets/error_page.dart';
 
-class WeatherScreen extends StatelessWidget {
+class WeatherScreen extends StatefulWidget {
   const WeatherScreen({super.key});
 
+  @override
+  State<WeatherScreen> createState() => _WeatherScreenState();
+}
+
+class _WeatherScreenState extends State<WeatherScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,9 +55,15 @@ class WeatherScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text("Hello"),
+            _buildTextWidget(state),
             const SizedBox(
               height: 20,
+            ),
+            TextButton(
+              onPressed: () {
+                context.read<WeatherBloc>().add(GetWeather());
+              },
+              child: const Text('Get weather model'),
             ),
             TextButton(
               onPressed: () {
@@ -69,5 +80,18 @@ class WeatherScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _buildTextWidget(WeatherState state) {
+    if (state is WeatherLoadSuccess) {
+      return Column(
+        children: [
+          Text(state.weatherModel.city),
+          Text(state.weatherModel.temp.toString()),
+        ],
+      );
+    } else {
+      return const Text("Click the button to get weather");
+    }
   }
 }
