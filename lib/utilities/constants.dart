@@ -12,7 +12,7 @@ const textFieldInputDecoration = InputDecoration(
   filled: true,
   hoverColor: Colors.white,
   fillColor: Colors.white,
-  hintText: 'Enter City Name',
+  hintText: '',
   hintStyle: TextStyle(
     color: lightGreyColor,
   ),

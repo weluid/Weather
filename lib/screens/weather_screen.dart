@@ -16,84 +16,95 @@ class WeatherScreen extends StatefulWidget {
 }
 
 class _WeatherScreenState extends State<WeatherScreen> {
-  late String data;
-  late String city;
-  late String temp;
-  late String weatherDescription;
-
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<WeatherBloc, WeatherState>(
-      builder: (context, state) {
-        return _buildParentWidget(context, state);
+    return BlocProvider<WeatherBloc>(
+      create: (BuildContext context) {
+        WeatherBloc bloc = WeatherBloc();
+        bloc.add(GetWeather());
+        return bloc;
       },
+      child: BlocBuilder<WeatherBloc, WeatherState>(
+        builder: (context, state) {
+          if (state is WeatherLoadSuccess) {
+            return _buildParentWidget(context, state);
+          } else if (state is WeatherLoadError) {
+            return const ErrorPage();
+          } else {
+            return const LoadingWeather();
+          }
+        },
+      ),
     );
   }
 
-  Widget _buildParentWidget(BuildContext context, WeatherState state) {
+  Widget _buildParentWidget(BuildContext context, WeatherLoadSuccess state) {
     return Scaffold(
       body: Container(
+        width: double.infinity,
+        height: double.infinity,
         decoration: const BoxDecoration(gradient: backgroundGradient),
-        child: Column(
-          children: [
-            const SizedBox(height: 68),
-            searchButton(context),
-            Text(
-              data = "Today, May 7th, 2021",
-              style: const TextStyle(color: Colors.white, fontSize: 14),
-            ),
-            const SizedBox(
-              height: 14,
-            ),
-            Text(
-              city = state is WeatherLoadSuccess ? city = state.weatherModel.city : "--",
-              style: const TextStyle(color: Colors.white, fontSize: 36),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  temp = state is WeatherLoadSuccess ? temp = state.weatherModel.temp.toString() : "--",
-                  style: const TextStyle(color: Colors.white, fontSize: 120),
-                ),
-                const SizedBox(width: 8),
-                const Baseline(
-                  baseline: 0,
-                  baselineType: TextBaseline.ideographic,
-                  child: Text(
-                    '°',
-                    style: TextStyle(color: Colors.white, fontSize: 60),
-                  ),
-                ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 18, bottom: 40),
-              child: Text(
-                weatherDescription = state is WeatherLoadSuccess
-                    ? weatherDescription = state.weatherModel.weatherDescription.toString()
-                    : "--",
-                style: const TextStyle(fontSize: 34, color: Colors.white, fontWeight: FontWeight.bold),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 68),
+              searchButton(context),
+              Text(
+                AppLocalizations.of(context).date(DateTime.now()),
+                // DateFormat('d MMMM yyyy').format(DateTime.now()),
+                style: const TextStyle(color: Colors.white, fontSize: 14),
               ),
-            ),
-            TextButton(
-              onPressed: () {
-                context.read<WeatherBloc>().add(GetWeather());
-              },
-              child: const Text('Get weather model'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const ErrorPage(),
+              const SizedBox(
+                height: 14,
+              ),
+              Text(
+                state.weatherModel.city,
+                style: const TextStyle(color: Colors.white, fontSize: 36),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    state.weatherModel.temp.toString(),
+                    style: const TextStyle(color: Colors.white, fontSize: 120),
                   ),
-                );
-              },
-              child: const Text('Error State'),
-            ),
-          ],
+                  const SizedBox(width: 8),
+                  const Baseline(
+                    baseline: 0,
+                    baselineType: TextBaseline.ideographic,
+                    child: Text(
+                      '°',
+                      style: TextStyle(color: Colors.white, fontSize: 60),
+                    ),
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 18, bottom: 40),
+                child: Text(
+                  state.weatherModel.weatherDescription.toString(),
+                  style: const TextStyle(fontSize: 34, color: Colors.white, fontWeight: FontWeight.bold),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  context.read<WeatherBloc>().add(GetWeather());
+                },
+                child: const Text('Get weather model'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ErrorPage(),
+                    ),
+                  );
+                },
+                child: const Text('Error State'),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -109,6 +120,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
           ),
         );
         if (city != null) {
+          if (!mounted) return;
           BlocProvider.of<WeatherBloc>(context).add(
             CityNameEvent(city: city),
           );

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:weather/utilities/constants.dart';
 import 'package:weather/validator/validator.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -45,7 +44,7 @@ class _SearchPageState extends State<SearchPage> {
                   style: const TextStyle(
                     color: Colors.black,
                   ),
-                  decoration: textFieldInputDecoration,
+                  decoration: textFieldInputDecoration.copyWith(hintText: AppLocalizations.of(context).searchCity),
                   onChanged: (value) {
                     _cityName = value.trim();
                   },
