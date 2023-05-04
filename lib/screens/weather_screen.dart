@@ -51,7 +51,6 @@ class _WeatherScreenState extends State<WeatherScreen> {
               searchButton(context),
               Text(
                 AppLocalizations.of(context).date(DateTime.now()),
-                // DateFormat('d MMMM yyyy').format(DateTime.now()),
                 style: const TextStyle(color: Colors.white, fontSize: 14),
               ),
               const SizedBox(
