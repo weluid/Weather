@@ -20,7 +20,7 @@ class MyButton extends StatelessWidget {
           gradient: backgroundGradient,
         ),
         margin: const EdgeInsets.only(top: 10),
-        width: MediaQuery.of(context).size.width * 0.35,
+        width: 200,
         // 35% FROM SCREEN
         height: 50,
         child: Center(

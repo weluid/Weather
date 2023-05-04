@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:weather/models/weather_model.dart';
 
 part 'weather_event.dart';
 
@@ -10,19 +12,14 @@ part 'weather_state.dart';
 class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   WeatherBloc() : super(WeatherInitial()) {
     on<WeatherEvent>(_eventHandler);
-    on<ButtonTappedEvent>(_buttonTapped);
-    on<SecondButtonTappedEvent>(_secondButtonTapped);
+    on<GetWeather>(_eventWeather);
   }
-}
 
-Future<void> _eventHandler(WeatherEvent e, Emitter emit) async {
-  emit(WeatherInitial());
-}
+  Future<void> _eventHandler(WeatherEvent e, Emitter emit) async {
+    emit(WeatherInitial());
+  }
 
-Future<void> _buttonTapped(ButtonTappedEvent e, Emitter emit) async {
-  emit(WeatherLoadSuccess(text: "Bye from the Bloc"));
-}
-
-Future<void> _secondButtonTapped(SecondButtonTappedEvent e, Emitter emit) async {
-  emit(WeatherLoadSuccess(text: "Hello Again!"));
+  Future<void> _eventWeather(WeatherEvent e, Emitter emit) async {
+    emit(WeatherLoadSuccess(WeatherModel("Kropyvnytskyi", Random().nextInt(50), "Cloudy")));
+  }
 }

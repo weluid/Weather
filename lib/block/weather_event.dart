@@ -13,3 +13,5 @@ class CityNameEvent extends WeatherEvent {
 class ButtonTappedEvent extends WeatherEvent {}
 
 class SecondButtonTappedEvent extends WeatherEvent {}
+
+class GetWeather extends WeatherEvent {}

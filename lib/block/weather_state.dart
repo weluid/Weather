@@ -13,8 +13,9 @@ class WeatherLoadError extends WeatherState {}
 
 // Server  success
 class WeatherLoadSuccess extends WeatherState {
-  final String text;
-  WeatherLoadSuccess({required this.text});
+  final WeatherModel weatherModel;
+
+  WeatherLoadSuccess(this.weatherModel);
 }
 
 // City is not entered

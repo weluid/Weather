@@ -6,6 +6,19 @@
     "error": "Помилка",
     "somethingWrong": "Щось не так.\nБудь ласка, спробуйте ще раз.",
     "tryAgain": "Спробувати ще раз",
-    "searchCity": "Пошук міста"
+    "searchCity": "Пошук міста",
+
+    "date": "{date}",
+            	"@date": {
+            		"placeholders": {
+            			"date": {
+            				"type": "DateTime",
+            				"format": "d MMMM yyyy",
+            				"isCustomDateFormat": "true"
+            			}
+            		}
+            	}
+
+
 
 }

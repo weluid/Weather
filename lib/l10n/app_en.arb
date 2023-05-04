@@ -6,6 +6,16 @@
   "error": "Error",
   "somethingWrong": "Something wont wrong.\nPlease try again",
   "tryAgain": "Try again",
-  "searchCity": "Search for city"
+  "searchCity": "Search for city",
 
+  "date": "{date}",
+  	"@date": {
+  		"placeholders": {
+  			"date": {
+  				"type": "DateTime",
+  				"format": "d MMMM yyyy",
+  				"isCustomDateFormat": "true"
+  			}
+  		}
+  	}
 }
