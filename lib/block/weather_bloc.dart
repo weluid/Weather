@@ -20,6 +20,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   }
 
   Future<void> _eventWeather(WeatherEvent e, Emitter emit) async {
-    emit(WeatherLoadSuccess(WeatherModel("Kropyvnytskyi", Random().nextInt(50), "Cloudy")));
+    emit(WeatherLoadSuccess(
+        WeatherModel(city: "Kropyvnytskyi", temp: Random().nextInt(50), weatherDescription: "Cloudy")));
   }
 }
