@@ -1,9 +1,11 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:bloc/bloc.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:meta/meta.dart';
 import 'package:weather/models/weather_model.dart';
+import 'package:weather/repositories/weather_api_client.dart';
+import 'package:weather/utilities/location_manager.dart';
 
 part 'weather_event.dart';
 
@@ -20,7 +22,23 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   }
 
   Future<void> _eventWeather(WeatherEvent e, Emitter emit) async {
-    emit(WeatherLoadSuccess(
-        WeatherModel(city: "Kropyvnytskyi", temp: Random().nextInt(50), weatherDescription: "Cloudy")));
+    WeatherModel? model;
+    LocationManager location = LocationManager();
+    Position? currentPosition = await location.getCurrentLocation();
+
+    if (currentPosition == null) {
+      emit(CoordinateError());
+      return;
+    } else {
+      model = await WeatherApiClient().getLocationWeather(currentPosition.latitude, currentPosition.longitude);
+      print(model);
+    }
+
+    if (model == null) {
+      emit(WeatherLoadError());
+    } else {
+      emit(WeatherLoadSuccess(
+          WeatherModel(city: model.city, temp: model.temp, weatherDescription: model.weatherDescription)));
+    }
   }
 }

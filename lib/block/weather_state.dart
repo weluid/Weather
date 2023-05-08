@@ -17,6 +17,7 @@ class WeatherLoadSuccess extends WeatherState {
 
   WeatherLoadSuccess(this.weatherModel);
 }
-
 // City is not entered
 class WeatherCityEmpty extends WeatherState {}
+// No access to the location
+class CoordinateError extends WeatherState {}

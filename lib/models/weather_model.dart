@@ -9,4 +9,9 @@ class WeatherModel {
     return WeatherModel(
         city: json['name'], temp: json['main']['temp'].toInt(), weatherDescription: json['weather'][0]['main']);
   }
+
+  @override
+  String toString() {
+    return 'WeatherModel{city: $city, temp: $temp, weatherDescription: $weatherDescription}';
+  }
 }
