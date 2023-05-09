@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:weather/components/button.dart';
 import 'package:weather/screens/search_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 import '../utilities/constants.dart';
 import 'package:geolocator/geolocator.dart';
@@ -27,29 +29,30 @@ class EnableLocation extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 40),
-          const Text(
-            'Enable\n Location',
+           Text(
+            AppLocalizations.of(context).enableLocation,
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold, color: buttonColor),
+            style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold, color: buttonColor),
           ),
           const SizedBox(height: 40),
-          const Padding(
-            padding: EdgeInsets.only(left: 20, right: 20),
+           Padding(
+            padding: const EdgeInsets.only(left: 20, right: 20),
             child: Text(
               textAlign: TextAlign.center,
-              "Please enable your location for using your app smoothly or go to the search for city",
-              style: TextStyle(color: darkGray, fontSize: 18),
+              AppLocalizations.of(context).enableLocationDescription,
+              style: const TextStyle(color: darkGray, fontSize: 18),
             ),
           ),
           const SizedBox(height: 80),
           MyButton(
-              buttonTitle: 'Turn on location',
+
+              buttonTitle: AppLocalizations.of(context).onLocation,
               onTap: () async {
                 await Geolocator.openAppSettings();
               }),
           const SizedBox(height: 30),
           GestureDetector(
-            child: const Text('Search for city'),
+            child:  Text(AppLocalizations.of(context).searchCity),
             onTap: () {
               Navigator.push(
                 context,

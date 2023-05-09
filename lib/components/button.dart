@@ -25,6 +25,7 @@ class MyButton extends StatelessWidget {
         height: 50,
         child: Center(
           child: Text(
+            textAlign: TextAlign.center,
             _buttonTitle,
             style: const TextStyle(
               fontSize: 18,
