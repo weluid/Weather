@@ -69,18 +69,18 @@ class _WeatherScreenState extends State<WeatherScreen> {
                 padding: const EdgeInsets.only(top: 10, bottom: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       state.weatherModel.temp.toString(),
                       style: const TextStyle(color: Colors.white, fontSize: 120),
                     ),
-                    const SizedBox(width: 8),
                     const Baseline(
-                      baseline: 0,
+                      baseline: 40,
                       baselineType: TextBaseline.ideographic,
                       child: Text(
                         '°',
-                        style: TextStyle(color: Colors.white, fontSize: 60),
+                        style: TextStyle(color: Colors.white, fontSize:30, fontWeight: FontWeight.w100),
                       ),
                     ),
                   ],

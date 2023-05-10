@@ -21,7 +21,7 @@ class WeatherApiClient {
   }
 
   //Location Weather
-  Future<dynamic> getLocationWeather(double latitude, double longitude) async {
+  Future<WeatherModel?> getLocationWeather(double latitude, double longitude) async {
     String url = '$openWeatherMapURL?lat=$latitude&lon=$longitude&appid=$apiKey&units=metric';
     final response = await http.get(Uri.parse(url));
 
