@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:meta/meta.dart';
@@ -27,11 +28,10 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
 
     if (currentPosition == null) {
       emit(CoordinateError());
-      return;
     } else {
       WeatherModel? model =
           await WeatherRepository().getWeatherFromLocation(currentPosition.latitude, currentPosition.longitude);
-      print(model);
+      debugPrint(model.toString());
 
       if (model == null) {
         emit(WeatherLoadError());
