@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:weather/models/weather_model.dart';
+import 'package:weather/magic.dart';
 
-const apiKey = '717b69e1c978a60c566d8b68c9133d53';
 const openWeatherMapURL = 'https://api.openweathermap.org/data/2.5/weather';
 
 class WeatherApiClient {
