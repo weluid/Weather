@@ -29,15 +29,24 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
     if (currentPosition == null) {
       emit(CoordinateError());
     } else {
-      WeatherModel? model =
-          await WeatherRepository().getWeatherFromLocation(currentPosition.latitude, currentPosition.longitude);
+      WeatherModel? model = await WeatherRepository().getWeatherFromLocation(
+        currentPosition.latitude,
+        currentPosition.longitude,
+      );
       debugPrint(model.toString());
 
       if (model == null) {
         emit(WeatherLoadError());
       } else {
-        emit(WeatherLoadSuccess(
-            WeatherModel(city: model.city, temp: model.temp, weatherDescription: model.weatherDescription)));
+        emit(
+          WeatherLoadSuccess(
+            WeatherModel(
+              city: model.city,
+              temp: model.temp,
+              weatherDescription: model.weatherDescription,
+            ),
+          ),
+        );
       }
     }
   }

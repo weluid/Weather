@@ -7,6 +7,7 @@ abstract class WeatherEvent {
 
 class CityNameEvent extends WeatherEvent {
   final String city;
+
   const CityNameEvent({required this.city});
 }
 

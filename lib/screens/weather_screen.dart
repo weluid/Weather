@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:weather/block/weather_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:weather/bloc/weather_bloc.dart';
 import 'package:weather/screens/search_page.dart';
 import 'package:weather/utilities/constants.dart';
 import 'package:weather/widgets/enable_location.dart';
-import 'package:weather/widgets/loading_state.dart';
 import 'package:weather/widgets/error_page.dart';
+import 'package:weather/widgets/loading_state.dart';
 
 class WeatherScreen extends StatefulWidget {
   const WeatherScreen({super.key});
@@ -64,7 +63,6 @@ class _WeatherScreenState extends State<WeatherScreen> {
                 state.weatherModel.city,
                 style: const TextStyle(color: Colors.white, fontSize: 28),
               ),
-
               Padding(
                 padding: const EdgeInsets.only(top: 10, bottom: 10),
                 child: Row(
@@ -73,14 +71,18 @@ class _WeatherScreenState extends State<WeatherScreen> {
                   children: [
                     Text(
                       state.weatherModel.temp.toString(),
-                      style: const TextStyle(color: Colors.white, fontSize: 120),
+                      style:
+                          const TextStyle(color: Colors.white, fontSize: 120),
                     ),
                     const Baseline(
                       baseline: 40,
                       baselineType: TextBaseline.ideographic,
                       child: Text(
                         '°',
-                        style: TextStyle(color: Colors.white, fontSize:30, fontWeight: FontWeight.w100),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 30,
+                            fontWeight: FontWeight.w100),
                       ),
                     ),
                   ],
@@ -88,7 +90,10 @@ class _WeatherScreenState extends State<WeatherScreen> {
               ),
               Text(
                 state.weatherModel.weatherDescription.toString(),
-                style: const TextStyle(fontSize: 28, color: Colors.white, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                    fontSize: 28,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold),
               ),
             ],
           ),
