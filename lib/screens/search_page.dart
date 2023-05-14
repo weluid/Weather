@@ -44,12 +44,14 @@ class _SearchPageState extends State<SearchPage> {
                   style: const TextStyle(
                     color: Colors.black,
                   ),
-                  decoration: textFieldInputDecoration.copyWith(hintText: AppLocalizations.of(context).searchCity),
+                  decoration: textFieldInputDecoration.copyWith(
+                      hintText: AppLocalizations.of(context).searchCity),
                   onChanged: (value) {
                     _cityName = value.trim();
                   },
                   validator: (value) {
-                    WeatherValidateCode code = Validator.cityValidator(value ?? "");
+                    WeatherValidateCode code =
+                        Validator.cityValidator(value ?? "");
                     switch (code) {
                       case WeatherValidateCode.validCityName:
                         return null;
@@ -62,14 +64,12 @@ class _SearchPageState extends State<SearchPage> {
                 ),
               ),
             ),
-            MyButton(
-                buttonTitle: AppLocalizations.of(context).getWeather,
-                onTap: () {
-                  if (!_formKey.currentState!.validate()) {
-                    return;
-                  }
-                  Navigator.pop(context, _cityName);
-                })
+            MyButton(AppLocalizations.of(context).getWeather, () {
+              if (!_formKey.currentState!.validate()) {
+                return;
+              }
+              Navigator.pop(context, _cityName);
+            })
           ],
         ),
       ),

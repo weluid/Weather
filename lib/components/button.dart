@@ -2,18 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:weather/utilities/constants.dart';
 
 class MyButton extends StatelessWidget {
-  late String _buttonTitle;
-  late VoidCallback _onTap;
+  final String buttonTitle;
+  final VoidCallback onTap;
 
-  MyButton({super.key, required String buttonTitle, required VoidCallback onTap}) {
-    _buttonTitle = buttonTitle;
-    _onTap = onTap;
-  }
+  const MyButton(this.buttonTitle, this.onTap, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: _onTap,
+      onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
@@ -21,11 +18,11 @@ class MyButton extends StatelessWidget {
         ),
         margin: const EdgeInsets.only(top: 10),
         width: 200,
-        // 35% FROM SCREEN
         height: 50,
         child: Center(
           child: Text(
-            _buttonTitle,
+            textAlign: TextAlign.center,
+            buttonTitle,
             style: const TextStyle(
               fontSize: 18,
               color: Colors.white,

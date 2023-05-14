@@ -17,5 +17,9 @@
   				"isCustomDateFormat": "true"
   			}
   		}
-  	}
+  	},
+  	"enableLocation": "Enable\n Location",
+  	"enableLocationDescription": "Please enable your location for using your app smoothly or go to the search for city",
+  	"onLocation": "Turn on location"
+
 }

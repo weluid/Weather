@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:weather/components/button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:weather/components/button.dart';
 
 class ErrorPage extends StatelessWidget {
   const ErrorPage({Key? key}) : super(key: key);
@@ -18,7 +18,8 @@ class ErrorPage extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(0, 24, 0, 18),
               child: Text(
                 AppLocalizations.of(context).error,
-                style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
+                style:
+                    const TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
               ),
             ),
             Text(
@@ -27,11 +28,9 @@ class ErrorPage extends StatelessWidget {
               style: const TextStyle(color: Color(0xff9D9D9D), fontSize: 18),
             ),
             const SizedBox(height: 32),
-            MyButton(
-                buttonTitle: AppLocalizations.of(context).tryAgain,
-                onTap: () {
-                  Navigator.pop(context);
-                })
+            MyButton(AppLocalizations.of(context).tryAgain, () {
+              Navigator.pop(context);
+            })
           ],
         ),
       ),
