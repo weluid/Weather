@@ -6,6 +6,7 @@ import 'package:weather/screens/search_page.dart';
 import 'package:weather/utilities/constants.dart';
 import 'package:weather/widgets/enable_location.dart';
 import 'package:weather/widgets/error_page.dart';
+import 'package:weather/widgets/internet_connection_error.dart';
 import 'package:weather/widgets/loading_state.dart';
 
 class WeatherScreen extends StatefulWidget {
@@ -32,6 +33,8 @@ class _WeatherScreenState extends State<WeatherScreen> {
             return const ErrorPage();
           } else if (state is CoordinateError) {
             return const EnableLocation();
+          } else if (state is ConnectionError) {
+            return const InternetError();
           } else {
             return const LoadingWeather();
           }
@@ -71,18 +74,14 @@ class _WeatherScreenState extends State<WeatherScreen> {
                   children: [
                     Text(
                       state.weatherModel.temp.toString(),
-                      style:
-                          const TextStyle(color: Colors.white, fontSize: 120),
+                      style: const TextStyle(color: Colors.white, fontSize: 120),
                     ),
                     const Baseline(
                       baseline: 40,
                       baselineType: TextBaseline.ideographic,
                       child: Text(
                         '°',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 30,
-                            fontWeight: FontWeight.w100),
+                        style: TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.w100),
                       ),
                     ),
                   ],
@@ -90,10 +89,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
               ),
               Text(
                 state.weatherModel.weatherDescription.toString(),
-                style: const TextStyle(
-                    fontSize: 28,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 28, color: Colors.white, fontWeight: FontWeight.bold),
               ),
             ],
           ),
