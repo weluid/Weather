@@ -8,7 +8,6 @@ import 'package:weather/models/weather_model.dart';
 import 'package:weather/repositories/weather_repository.dart';
 import 'package:weather/utilities/location_manager.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:weather/widgets/internet_connection_error.dart';
 
 part 'weather_event.dart';
 
@@ -28,39 +27,36 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
     final connectivityResult = await (Connectivity().checkConnectivity());
     debugPrint('connectivityResult ->$connectivityResult');
 
+
     if (connectivityResult == ConnectivityResult.none) {
       emit(ConnectionError());
+      return;
     }
+    LocationManager location = LocationManager();
+    Position? currentPosition = await location.getCurrentLocation();
 
-    if (connectivityResult != ConnectivityResult.none)  {
-      LocationManager location = LocationManager();
-      Position? currentPosition = await location.getCurrentLocation();
+    if (currentPosition == null) {
+      emit(CoordinateError());
+    } else {
+      WeatherModel? model = await WeatherRepository().getWeatherFromLocation(
+        currentPosition.latitude,
+        currentPosition.longitude,
+      );
+      debugPrint(model.toString());
 
-      if (currentPosition == null) {
-        emit(CoordinateError());
+      if (model == null) {
+        emit(WeatherLoadError());
       } else {
-        WeatherModel? model = await WeatherRepository().getWeatherFromLocation(
-          currentPosition.latitude,
-          currentPosition.longitude,
-        );
-        debugPrint(model.toString());
-
-        if (model == null) {
-          emit(WeatherLoadError());
-        } else {
-          emit(
-            WeatherLoadSuccess(
-              WeatherModel(
-                city: model.city,
-                temp: model.temp,
-                weatherDescription: model.weatherDescription,
-              ),
+        emit(
+          WeatherLoadSuccess(
+            WeatherModel(
+              city: model.city,
+              temp: model.temp,
+              weatherDescription: model.weatherDescription,
             ),
-          );
-        }
+          ),
+        );
       }
     }
   }
-
-
 }

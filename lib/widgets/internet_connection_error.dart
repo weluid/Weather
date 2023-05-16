@@ -29,23 +29,22 @@ class InternetError extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 40),
-                const Text(
-                  'Oops, No Internet Connection',
+                Text(
+                  AppLocalizations.of(context).noInternet,
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold, color: buttonColor),
+                  style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold, color: buttonColor),
                 ),
                 const SizedBox(height: 40),
-                const Padding(
+                Padding(
                   padding: EdgeInsets.only(left: 20, right: 20),
                   child: Text(
                     textAlign: TextAlign.center,
-                    'Make sure Wi-Fi or cellular data is turned on and then try again.',
+                    AppLocalizations.of(context).turnOn,
                     style: TextStyle(color: darkGray, fontSize: 18),
                   ),
                 ),
                 const SizedBox(height: 80),
-                MyButton(AppLocalizations.of(context).tryAgain, () async {
-                }),
+                MyButton(AppLocalizations.of(context).tryAgain, () async {}),
                 const SizedBox(height: 30),
                 const SizedBox(height: 30)
               ],
