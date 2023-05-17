@@ -7,6 +7,7 @@ import 'package:meta/meta.dart';
 import 'package:weather/models/weather_model.dart';
 import 'package:weather/repositories/weather_repository.dart';
 import 'package:weather/utilities/location_manager.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 part 'weather_event.dart';
 
@@ -23,6 +24,14 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   }
 
   Future<void> _eventWeather(WeatherEvent e, Emitter emit) async {
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    debugPrint('connectivityResult ->$connectivityResult');
+
+
+    if (connectivityResult == ConnectivityResult.none) {
+      emit(ConnectionError());
+      return;
+    }
     LocationManager location = LocationManager();
     Position? currentPosition = await location.getCurrentLocation();
 

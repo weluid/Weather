@@ -23,3 +23,6 @@ class WeatherCityEmpty extends WeatherState {}
 
 // No access to the location
 class CoordinateError extends WeatherState {}
+
+// No internet connection
+class ConnectionError extends WeatherState {}

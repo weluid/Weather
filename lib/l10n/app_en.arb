@@ -20,6 +20,8 @@
   	},
   	"enableLocation": "Enable\n Location",
   	"enableLocationDescription": "Please enable your location for using your app smoothly or go to the search for city",
-  	"onLocation": "Turn on location"
+  	"onLocation": "Turn on location",
+  	"noInternet": "Oops, No Internet Connection",
+  	"turnOn": "Make sure Wi-Fi or cellular data is turned on and then try again"
 
 }
