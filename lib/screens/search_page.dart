@@ -47,7 +47,7 @@ class _SearchPageState extends State<SearchPage> {
                   decoration: textFieldInputDecoration.copyWith(
                       hintText: AppLocalizations.of(context).searchCity),
                   onChanged: (value) {
-                    _cityName = value.trim();
+                    _cityName = value.toLowerCase().trim();
                   },
                   validator: (value) {
                     WeatherValidateCode code =

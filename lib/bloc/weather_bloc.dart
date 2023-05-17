@@ -17,6 +17,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   WeatherBloc() : super(WeatherInitial()) {
     on<WeatherEvent>(_eventHandler);
     on<GetWeather>(_eventWeather);
+    on<CityNameEvent>(_eventWeatherFromCity);
   }
 
   Future<void> _eventHandler(WeatherEvent e, Emitter emit) async {
@@ -26,7 +27,6 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   Future<void> _eventWeather(WeatherEvent e, Emitter emit) async {
     final connectivityResult = await (Connectivity().checkConnectivity());
     debugPrint('connectivityResult ->$connectivityResult');
-
 
     if (connectivityResult == ConnectivityResult.none) {
       emit(ConnectionError());
@@ -57,6 +57,27 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
           ),
         );
       }
+    }
+  }
+
+  Future<void> _eventWeatherFromCity(CityNameEvent e, Emitter emit) async {
+    emit(WeatherLoading());
+
+    WeatherModel? model = await WeatherRepository().getWeatherFromCity(e.city);
+    debugPrint(model.toString());
+
+    if (model == null) {
+      emit(WeatherLoadError());
+    } else {
+      emit(
+        WeatherLoadSuccess(
+          WeatherModel(
+            city: model.city,
+            temp: model.temp,
+            weatherDescription: model.weatherDescription,
+          ),
+        ),
+      );
     }
   }
 }

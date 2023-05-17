@@ -13,4 +13,8 @@ class WeatherRepository {
       longitude,
     );
   }
+
+  Future<WeatherModel?> getWeatherFromCity(String city) async {
+    return await weatherApiClient.getCityWeather(city);
+  }
 }

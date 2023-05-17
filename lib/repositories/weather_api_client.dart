@@ -8,15 +8,17 @@ const openWeatherMapURL = 'https://api.openweathermap.org/data/2.5/weather';
 
 class WeatherApiClient {
   //City Weather
-  Future<dynamic> getCityWeather(String cityName) async {
+  Future<WeatherModel?> getCityWeather(String cityName) async {
     String url = '$openWeatherMapURL?q=$cityName&appid=$apiKey&units=metric';
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
+      debugPrint('Response body: ${response.body}');
+
       final weatherJson = jsonDecode(response.body);
       return WeatherModel.fromJson(weatherJson);
     } else {
-      throw Exception('Error getting data for city');
+      return null;
     }
   }
 

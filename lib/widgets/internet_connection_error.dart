@@ -22,7 +22,10 @@ class InternetError extends StatelessWidget {
                 Container(
                   width: 140,
                   height: 140,
-                  decoration: const BoxDecoration(shape: BoxShape.circle, color: Color(0xffefefef)),
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Color(0xffefefef),
+                  ),
                   child: const Icon(
                     Icons.signal_wifi_statusbar_connected_no_internet_4,
                     size: 80,
@@ -33,7 +36,11 @@ class InternetError extends StatelessWidget {
                 Text(
                   AppLocalizations.of(context).noInternet,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold, color: buttonColor),
+                  style: const TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                    color: buttonColor,
+                  ),
                 ),
                 const SizedBox(height: 40),
                 Padding(
