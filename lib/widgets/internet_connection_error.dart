@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:weather/components/button.dart';
+import 'package:weather/screens/search_page.dart';
 
 import '../utilities/constants.dart';
 
@@ -36,15 +37,22 @@ class InternetError extends StatelessWidget {
                 ),
                 const SizedBox(height: 40),
                 Padding(
-                  padding: EdgeInsets.only(left: 20, right: 20),
+                  padding: const EdgeInsets.only(left: 20, right: 20),
                   child: Text(
                     textAlign: TextAlign.center,
                     AppLocalizations.of(context).turnOn,
-                    style: TextStyle(color: darkGray, fontSize: 18),
+                    style: const TextStyle(color: darkGray, fontSize: 18),
                   ),
                 ),
                 const SizedBox(height: 80),
-                MyButton(AppLocalizations.of(context).tryAgain, () async {}),
+                MyButton(AppLocalizations.of(context).tryAgain, () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SearchPage(),
+                    ),
+                  );
+                }),
                 const SizedBox(height: 30),
                 const SizedBox(height: 30)
               ],
