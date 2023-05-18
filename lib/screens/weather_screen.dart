@@ -88,7 +88,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                 ),
               ),
               Text(
-                state.weatherModel.weatherDescription.toString(),
+                state.weatherModel.weatherDescriptions.toString(),
                 style: const TextStyle(fontSize: 28, color: Colors.white, fontWeight: FontWeight.bold),
               ),
             ],

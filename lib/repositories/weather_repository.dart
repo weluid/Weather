@@ -13,4 +13,14 @@ class WeatherRepository {
       longitude,
     );
   }
+
+  Future<WeatherModel?> getWeatherFromLocation1(
+    double latitude,
+    double longitude,
+  ) async {
+    return await weatherApiClient.getLocationWeather(
+      latitude,
+      longitude,
+    );
+  }
 }
