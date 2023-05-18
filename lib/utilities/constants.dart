@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 const lightGreyColor = Color(0xFFc1c1c7);
 const darkGray = Color(0xff989898);
 const mainDarkColor = Color(0xFF3D3950);
-const buttonColor = Color(0xff025A97);
+const buttonColor = Color(0xff00000);
 
 const textFieldInputDecoration = InputDecoration(
   prefixIcon: Icon(
