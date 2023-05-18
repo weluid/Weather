@@ -11,8 +11,4 @@ class CityNameEvent extends WeatherEvent {
   const CityNameEvent({required this.city});
 }
 
-class ButtonTappedEvent extends WeatherEvent {}
-
-class SecondButtonTappedEvent extends WeatherEvent {}
-
 class GetWeather extends WeatherEvent {}
