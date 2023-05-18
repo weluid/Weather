@@ -52,7 +52,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
             WeatherModel(
               city: model.city,
               temp: model.temp,
-              weatherDescription: model.weatherDescription,
+              weatherDescriptions: model.weatherDescriptions,
             ),
           ),
         );
