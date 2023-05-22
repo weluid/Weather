@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:intl/intl.dart';
 import 'package:weather/bloc/weather_bloc.dart';
 import 'package:weather/screens/search_page.dart';
 import 'package:weather/utilities/constants.dart';
@@ -90,6 +91,13 @@ class _WeatherScreenState extends State<WeatherScreen> {
               Text(
                 state.weatherModel.weatherDescription.toString(),
                 style: const TextStyle(fontSize: 28, color: Colors.white, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 15),
+              Column(
+                children: [
+                  Text(state.dailyModel.midTemp.toString()),
+                  Text(DateFormat('E').format(state.dailyModel.date))
+                ],
               ),
             ],
           ),

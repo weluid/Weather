@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:meta/meta.dart';
+import 'package:weather/models/daily_weather_model.dart';
 import 'package:weather/models/weather_model.dart';
 import 'package:weather/repositories/weather_repository.dart';
 import 'package:weather/utilities/location_manager.dart';
@@ -44,6 +45,14 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
       );
       debugPrint(model.toString());
 
+      List<DailyModel>? dailyModel =
+      await WeatherRepository().getDailyWeatherFromLocation(
+        currentPosition.latitude,
+        currentPosition.longitude,
+      );
+
+      debugPrint(dailyModel.toString());
+
       if (model == null) {
         emit(WeatherLoadError());
       } else {
@@ -54,6 +63,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
               temp: model.temp,
               weatherDescription: model.weatherDescription,
             ),
+            DailyModel(midTemp: dailyModel![0].midTemp, date: dailyModel[0].date),
           ),
         );
       }
@@ -76,6 +86,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
             temp: model.temp,
             weatherDescription: model.weatherDescription,
           ),
+          DailyModel(midTemp: 11, date: DateTime.fromMillisecondsSinceEpoch(1684789200 * 1000)),
         ),
       );
     }
