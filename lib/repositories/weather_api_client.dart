@@ -25,10 +25,8 @@ class WeatherApiClient {
   }
 
   //Location Weather
-  Future<WeatherModel?> getLocationWeather(
-      double latitude, double longitude) async {
-    String url =
-        '$openWeatherMapURL?lat=$latitude&lon=$longitude&appid=$apiKey&units=metric';
+  Future<WeatherModel?> getLocationWeather(double latitude, double longitude) async {
+    String url = '$openWeatherMapURL?lat=$latitude&lon=$longitude&appid=$apiKey&units=metric';
 
     debugPrint('Request URL: $url');
     final response = await http.get(Uri.parse(url));
@@ -45,14 +43,31 @@ class WeatherApiClient {
 
   //Location Forecast
   Future<List<DailyModel>?> getDailyLocationWeather(
-      double latitude, double longitude) async {
+      double latitude,
+      double longitude) async {
     String url =
-        '$dailyRequest?lat=$latitude&lon=$longitude&appid=$apiKey&units=metric';
+        '$dailyRequest?lat=$latitude&lon=$longitude&appid=$apiKey&units=metric&lang=uk';
 
     debugPrint('Request URL: $url');
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
+      final weatherJson = jsonDecode(response.body);
+      return DailyModel.fromForecastJson(weatherJson);
+    } else {
+      return null;
+    }
+  }
+
+  //City Forecast
+  Future<List<DailyModel>?> getDailyCityWeather(String cityName) async {
+    String url =
+        '$dailyRequest?q=$cityName&appid=$apiKey&units=metric';
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      debugPrint('Response body: ${response.body}');
+
       final weatherJson = jsonDecode(response.body);
       return DailyModel.fromForecastJson(weatherJson);
     } else {

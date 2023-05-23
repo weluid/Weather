@@ -39,21 +39,21 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
     if (currentPosition == null) {
       emit(CoordinateError());
     } else {
+      // current weather
       WeatherModel? model = await WeatherRepository().getWeatherFromLocation(
         currentPosition.latitude,
         currentPosition.longitude,
       );
       debugPrint(model.toString());
 
-      List<DailyModel>? dailyModel =
-      await WeatherRepository().getDailyWeatherFromLocation(
+      // daily forecast
+      List<DailyModel>? dailyModel = await WeatherRepository().getDailyWeatherFromLocation(
         currentPosition.latitude,
         currentPosition.longitude,
       );
-
       debugPrint(dailyModel.toString());
 
-      if (model == null) {
+      if (model == null || dailyModel == null) {
         emit(WeatherLoadError());
       } else {
         emit(
@@ -63,7 +63,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
               temp: model.temp,
               weatherDescription: model.weatherDescription,
             ),
-            DailyModel(midTemp: dailyModel![0].midTemp, date: dailyModel[0].date),
+            dailyModel,
           ),
         );
       }
@@ -73,10 +73,16 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   Future<void> _eventWeatherFromCity(CityNameEvent e, Emitter emit) async {
     emit(WeatherLoading());
 
+    // current weather
     WeatherModel? model = await WeatherRepository().getWeatherFromCity(e.city);
     debugPrint(model.toString());
 
-    if (model == null) {
+    // daily forecast
+    List<DailyModel>? dailyModel =
+    await WeatherRepository().getDailyWeatherFromCity(e.city);
+    debugPrint(dailyModel.toString());
+
+    if (model == null || dailyModel == null) {
       emit(WeatherLoadError());
     } else {
       emit(
@@ -86,7 +92,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
             temp: model.temp,
             weatherDescription: model.weatherDescription,
           ),
-          DailyModel(midTemp: 11, date: DateTime.fromMillisecondsSinceEpoch(1684789200 * 1000)),
+          dailyModel,
         ),
       );
     }

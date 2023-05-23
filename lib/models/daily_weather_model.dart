@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 class DailyModel {
   int midTemp;
   DateTime date;
+  String iconId;
 
   DailyModel({
     required this.midTemp,
     required this.date,
+    required this.iconId,
   });
 
   static List<DailyModel> fromForecastJson(dynamic json) {
@@ -20,6 +22,7 @@ class DailyModel {
         weathers.add(DailyModel(
           midTemp: item['main']['temp'].toInt(),
           date: DateTime.fromMillisecondsSinceEpoch(item['dt'] * 1000),
+          iconId: item['weather'][0]["icon"],
         ));
       }
     }

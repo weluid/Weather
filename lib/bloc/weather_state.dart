@@ -14,7 +14,7 @@ class WeatherLoadError extends WeatherState {}
 // Server  success
 class WeatherLoadSuccess extends WeatherState {
   final WeatherModel weatherModel;
-  final DailyModel dailyModel;
+  final List<DailyModel> dailyModel;
 
   WeatherLoadSuccess(this.weatherModel, this.dailyModel);
 }
