@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:weather/bloc/weather_bloc.dart';
 import 'package:weather/components/button.dart';
 import 'package:weather/screens/search_page.dart';
 
@@ -52,14 +54,23 @@ class InternetError extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 80),
-                MyButton(AppLocalizations.of(context).tryAgain, () {
-                  Navigator.push(
+                MyButton(AppLocalizations.of(context).tryAgain, () async {
+                  final city = await Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => const SearchPage(),
                     ),
                   );
-                }),
+                  if (city != null) {
+                    if (context.mounted){
+                      BlocProvider.of<WeatherBloc>(context).add(
+                        CityNameEvent(city: city),
+                      );
+                    }
+
+                  }
+                  debugPrint('City after: $city'); //test city
+                },),
                 const SizedBox(height: 30),
                 const SizedBox(height: 30)
               ],
