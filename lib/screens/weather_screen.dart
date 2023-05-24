@@ -97,7 +97,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
 
               const SizedBox(height: 120),
               SizedBox(
-                height: 300,
+                height:150,
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,

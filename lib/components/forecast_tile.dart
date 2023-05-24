@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 class ForecastTile extends StatelessWidget {
   final String temp;
   final String date;
-  final String? icon;
+  final String icon;
 
-  const ForecastTile({super.key, required this.temp, required this.date, this.icon});
+  const ForecastTile({super.key, required this.temp, required this.date, required this.icon});
 
   @override
   Widget build(BuildContext context) {

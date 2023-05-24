@@ -9,31 +9,15 @@ const openWeatherMapURL = 'https://api.openweathermap.org/data/2.5/weather';
 const dailyRequest = "https://api.openweathermap.org/data/2.5/forecast";
 
 class WeatherApiClient {
-  //City Weather
-  Future<WeatherModel?> getCityWeather(String cityName) async {
-    String url = '$openWeatherMapURL?q=$cityName&appid=$apiKey&units=metric';
+  Future<WeatherModel?> getWeather({
+    String? city,
+    double? latitude,
+    double? longitude,}) async {
+    String url = _getWeatherNowUrl(city, latitude, longitude);
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
       debugPrint('Response body: ${response.body}');
-
-      final weatherJson = jsonDecode(response.body);
-      return WeatherModel.fromJson(weatherJson);
-    } else {
-      return null;
-    }
-  }
-
-  //Location Weather
-  Future<WeatherModel?> getLocationWeather(double latitude, double longitude) async {
-    String url = '$openWeatherMapURL?lat=$latitude&lon=$longitude&appid=$apiKey&units=metric';
-
-    debugPrint('Request URL: $url');
-    final response = await http.get(Uri.parse(url));
-
-    if (response.statusCode == 200) {
-      debugPrint('Response body: ${response.body}');
-
       final weatherJson = jsonDecode(response.body);
       return WeatherModel.fromJson(weatherJson);
     } else {
@@ -42,11 +26,11 @@ class WeatherApiClient {
   }
 
   //Location Forecast
-  Future<List<DailyModel>?> getDailyLocationWeather(
-      double latitude,
-      double longitude) async {
-    String url =
-        '$dailyRequest?lat=$latitude&lon=$longitude&appid=$apiKey&units=metric&lang=uk';
+  Future<List<DailyModel>?> getDailyWeather({
+    String? city,
+    double? latitude,
+    double? longitude}) async {
+    String url = _getDailyWeatherUrl(city, latitude, longitude);
 
     debugPrint('Request URL: $url');
     final response = await http.get(Uri.parse(url));
@@ -59,19 +43,23 @@ class WeatherApiClient {
     }
   }
 
-  //City Forecast
-  Future<List<DailyModel>?> getDailyCityWeather(String cityName) async {
-    String url =
-        '$dailyRequest?q=$cityName&appid=$apiKey&units=metric';
-    final response = await http.get(Uri.parse(url));
+  String _getWeatherNowUrl(
+    String? city,
+    double? latitude,
+    double? longitude,
+  ) {
+    return city != null
+        ? '$openWeatherMapURL?q=$city&appid=$apiKey&units=metric'
+        : '$openWeatherMapURL?lat=$latitude&lon=$longitude&appid=$apiKey&units=metric';
+  }
 
-    if (response.statusCode == 200) {
-      debugPrint('Response body: ${response.body}');
-
-      final weatherJson = jsonDecode(response.body);
-      return DailyModel.fromForecastJson(weatherJson);
-    } else {
-      return null;
-    }
+  String _getDailyWeatherUrl(
+    String? city,
+    double? latitude,
+    double? longitude,
+  ) {
+    return city != null
+        ? '$dailyRequest?q=$city&appid=$apiKey&units=metric'
+        : '$dailyRequest?lat=$latitude&lon=$longitude&appid=$apiKey&units=metric&lang=uk';
   }
 }

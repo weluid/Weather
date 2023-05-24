@@ -17,14 +17,12 @@ class DailyModel {
     final items = [0, 8, 16, 24, 32];
     List<dynamic> responseList = json['list'];
     for (int index in items) {
-      if (index >= 0 && index < responseList.length) {
         dynamic item = responseList[index];
         weathers.add(DailyModel(
           midTemp: item['main']['temp'].toInt(),
           date: DateTime.fromMillisecondsSinceEpoch(item['dt'] * 1000),
           iconId: item['weather'][0]["icon"],
         ));
-      }
     }
 
     debugPrint(weathers.toString());

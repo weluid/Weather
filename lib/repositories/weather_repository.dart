@@ -6,34 +6,27 @@ class WeatherRepository {
   final WeatherApiClient weatherApiClient = WeatherApiClient();
 
   // current weather
-  Future<WeatherModel?> getWeatherFromLocation(
-    double latitude,
-    double longitude,
-  ) async {
-    return await weatherApiClient.getLocationWeather(
-      latitude,
-      longitude,
+  Future<WeatherModel?> getCurrentWeather({
+    double? latitude,
+    double? longitude,
+    String? city}) async {
+    return await weatherApiClient.getWeather(
+      latitude: latitude,
+      longitude: longitude,
+      city: city,
     );
-  }
-
-  // current city
-  Future<WeatherModel?> getWeatherFromCity(String city) async {
-    return await weatherApiClient.getCityWeather(city);
   }
 
   // daily forecast
-  Future<List<DailyModel>?> getDailyWeatherFromLocation(
-    double latitude,
-    double longitude,
-  ) async {
-    return await weatherApiClient.getDailyLocationWeather(
-      latitude,
-      longitude,
+  Future<List<DailyModel>?> getDailyWeather({
+    double? latitude,
+    double? longitude,
+    String? city,
+  }) async {
+    return await weatherApiClient.getDailyWeather(
+      latitude: latitude,
+      longitude: longitude,
+      city: city,
     );
-  }
-
-  // daily city forecast
-  Future<List<DailyModel>?> getDailyWeatherFromCity(String city) async {
-    return await weatherApiClient.getDailyCityWeather(city);
   }
 }

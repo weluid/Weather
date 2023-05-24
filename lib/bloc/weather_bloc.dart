@@ -26,10 +26,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   }
 
   Future<void> _eventWeather(WeatherEvent e, Emitter emit) async {
-    final connectivityResult = await (Connectivity().checkConnectivity());
-    debugPrint('connectivityResult ->$connectivityResult');
-
-    if (connectivityResult == ConnectivityResult.none) {
+    if (await _checkInternetStatus() == false) {
       emit(ConnectionError());
       return;
     }
@@ -40,48 +37,41 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
       emit(CoordinateError());
     } else {
       // current weather
-      WeatherModel? model = await WeatherRepository().getWeatherFromLocation(
-        currentPosition.latitude,
-        currentPosition.longitude,
+      WeatherModel? model = await WeatherRepository().getCurrentWeather(
+        latitude: currentPosition.latitude,
+        longitude: currentPosition.longitude,
       );
       debugPrint(model.toString());
 
       // daily forecast
-      List<DailyModel>? dailyModel = await WeatherRepository().getDailyWeatherFromLocation(
-        currentPosition.latitude,
-        currentPosition.longitude,
+      List<DailyModel>? dailyModel = await WeatherRepository().getDailyWeather(
+        latitude: currentPosition.latitude,
+        longitude: currentPosition.longitude,
       );
       debugPrint(dailyModel.toString());
 
-      if (model == null || dailyModel == null) {
-        emit(WeatherLoadError());
-      } else {
-        emit(
-          WeatherLoadSuccess(
-            WeatherModel(
-              city: model.city,
-              temp: model.temp,
-              weatherDescription: model.weatherDescription,
-            ),
-            dailyModel,
-          ),
-        );
-      }
+      _implementState(model, dailyModel, emit);
     }
   }
 
   Future<void> _eventWeatherFromCity(CityNameEvent e, Emitter emit) async {
-    emit(WeatherLoading());
-
+    // emit(WeatherLoading());
+    if (await _checkInternetStatus() == false) {
+      emit(ConnectionError());
+      return;
+    }
     // current weather
-    WeatherModel? model = await WeatherRepository().getWeatherFromCity(e.city);
+    WeatherModel? model = await WeatherRepository().getCurrentWeather(city: e.city);
     debugPrint(model.toString());
 
     // daily forecast
-    List<DailyModel>? dailyModel =
-    await WeatherRepository().getDailyWeatherFromCity(e.city);
+    List<DailyModel>? dailyModel = await WeatherRepository().getDailyWeather(city: e.city);
     debugPrint(dailyModel.toString());
 
+    _implementState(model, dailyModel, emit);
+  }
+
+  _implementState(WeatherModel? model, List<DailyModel>? dailyModel, Emitter emit) {
     if (model == null || dailyModel == null) {
       emit(WeatherLoadError());
     } else {
@@ -96,5 +86,11 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
         ),
       );
     }
+  }
+
+  Future<bool> _checkInternetStatus() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+
+    return connectivityResult == ConnectivityResult.none ? false : true;
   }
 }
