@@ -11,7 +11,6 @@ import 'package:weather/widgets/error_page.dart';
 import 'package:weather/widgets/internet_connection_error.dart';
 import 'package:weather/widgets/loading_state.dart';
 
-
 class WeatherScreen extends StatefulWidget {
   const WeatherScreen({super.key});
 
@@ -94,9 +93,9 @@ class _WeatherScreenState extends State<WeatherScreen> {
                 state.weatherModel.weatherDescription.toString(),
                 style: const TextStyle(fontSize: 28, color: Colors.white, fontWeight: FontWeight.bold),
               ),
-const SizedBox(height: 120),
+              const SizedBox(height: 120),
               SizedBox(
-                height:150,
+                height: 150,
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
@@ -149,4 +148,3 @@ const SizedBox(height: 120),
     );
   }
 }
-
