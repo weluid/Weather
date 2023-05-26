@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:meta/meta.dart';
+import 'package:weather/models/daily_weather_model.dart';
 import 'package:weather/models/weather_model.dart';
 import 'package:weather/repositories/weather_repository.dart';
 import 'package:weather/utilities/location_manager.dart';
@@ -25,10 +26,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   }
 
   Future<void> _eventWeather(WeatherEvent e, Emitter emit) async {
-    final connectivityResult = await (Connectivity().checkConnectivity());
-    debugPrint('connectivityResult ->$connectivityResult');
-
-    if (connectivityResult == ConnectivityResult.none) {
+    if (await _checkInternetStatus() == false) {
       emit(ConnectionError());
       return;
     }
@@ -38,35 +36,43 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
     if (currentPosition == null) {
       emit(CoordinateError());
     } else {
-      WeatherModel? model = await WeatherRepository().getWeatherFromLocation(
-        currentPosition.latitude,
-        currentPosition.longitude,
+      // current weather
+      WeatherModel? model = await WeatherRepository().getCurrentWeather(
+        latitude: currentPosition.latitude,
+        longitude: currentPosition.longitude,
       );
       debugPrint(model.toString());
 
-      if (model == null) {
-        emit(WeatherLoadError());
-      } else {
-        emit(
-          WeatherLoadSuccess(
-            WeatherModel(
-              city: model.city,
-              temp: model.temp,
-              weatherDescription: model.weatherDescription,
-            ),
-          ),
-        );
-      }
+      // daily forecast
+      List<DailyModel>? dailyModel = await WeatherRepository().getDailyWeather(
+        latitude: currentPosition.latitude,
+        longitude: currentPosition.longitude,
+      );
+      debugPrint(dailyModel.toString());
+
+      _implementState(model, dailyModel, emit);
     }
   }
 
   Future<void> _eventWeatherFromCity(CityNameEvent e, Emitter emit) async {
-    emit(WeatherLoading());
-
-    WeatherModel? model = await WeatherRepository().getWeatherFromCity(e.city);
+    // emit(WeatherLoading());
+    if (await _checkInternetStatus() == false) {
+      emit(ConnectionError());
+      return;
+    }
+    // current weather
+    WeatherModel? model = await WeatherRepository().getCurrentWeather(city: e.city);
     debugPrint(model.toString());
 
-    if (model == null) {
+    // daily forecast
+    List<DailyModel>? dailyModel = await WeatherRepository().getDailyWeather(city: e.city);
+    debugPrint(dailyModel.toString());
+
+    _implementState(model, dailyModel, emit);
+  }
+
+  _implementState(WeatherModel? model, List<DailyModel>? dailyModel, Emitter emit) {
+    if (model == null || dailyModel == null) {
       emit(WeatherLoadError());
     } else {
       emit(
@@ -76,8 +82,15 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
             temp: model.temp,
             weatherDescription: model.weatherDescription,
           ),
+          dailyModel,
         ),
       );
     }
+  }
+
+  Future<bool> _checkInternetStatus() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+
+    return connectivityResult == ConnectivityResult.none ? false : true;
   }
 }

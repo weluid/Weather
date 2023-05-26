@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:intl/intl.dart';
 import 'package:weather/bloc/weather_bloc.dart';
+import 'package:weather/components/forecast_tile.dart';
 import 'package:weather/screens/search_page.dart';
 import 'package:weather/utilities/constants.dart';
 import 'package:weather/widgets/enable_location.dart';
@@ -91,7 +93,23 @@ class _WeatherScreenState extends State<WeatherScreen> {
                 state.weatherModel.weatherDescription.toString(),
                 style: const TextStyle(fontSize: 28, color: Colors.white, fontWeight: FontWeight.bold),
               ),
-
+              const SizedBox(height: 120),
+              SizedBox(
+                height: 150,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  itemBuilder: (BuildContext context, int index) {
+                    return ForecastTile(
+                      temp: state.dailyModel[index].midTemp.toString(),
+                      icon: state.dailyModel[index].iconId,
+                      date: DateFormat('E').format(state.dailyModel[index].date),
+                    );
+                  },
+                  itemCount: state.dailyModel.length,
+                  separatorBuilder: (BuildContext context, int index) => const Divider(),
+                ),
+              )
             ],
           ),
         ),

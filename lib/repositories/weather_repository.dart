@@ -1,20 +1,32 @@
+import 'package:weather/models/daily_weather_model.dart';
 import 'package:weather/models/weather_model.dart';
 import 'package:weather/repositories/weather_api_client.dart';
 
 class WeatherRepository {
   final WeatherApiClient weatherApiClient = WeatherApiClient();
 
-  Future<WeatherModel?> getWeatherFromLocation(
-    double latitude,
-    double longitude,
-  ) async {
-    return await weatherApiClient.getLocationWeather(
-      latitude,
-      longitude,
+  // current weather
+  Future<WeatherModel?> getCurrentWeather({
+    double? latitude,
+    double? longitude,
+    String? city}) async {
+    return await weatherApiClient.getWeather(
+      latitude: latitude,
+      longitude: longitude,
+      city: city,
     );
   }
 
-  Future<WeatherModel?> getWeatherFromCity(String city) async {
-    return await weatherApiClient.getCityWeather(city);
+  // daily forecast
+  Future<List<DailyModel>?> getDailyWeather({
+    double? latitude,
+    double? longitude,
+    String? city,
+  }) async {
+    return await weatherApiClient.getDailyWeather(
+      latitude: latitude,
+      longitude: longitude,
+      city: city,
+    );
   }
 }
