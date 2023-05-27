@@ -4,21 +4,30 @@ import 'package:http/http.dart' as http;
 import 'package:weather/models/daily_weather_model.dart';
 import 'package:weather/models/weather_model.dart';
 import 'package:weather/magic.dart';
+import 'package:dio/dio.dart';
 
 const openWeatherMapURL = 'https://api.openweathermap.org/data/2.5/weather';
 const dailyRequest = "https://api.openweathermap.org/data/2.5/forecast";
+
+//TODO If u want to change request way, pls change this constant ↓
+//TODO 'httpClient = 'dio' - for DIO lib
+//TODO 'httpClient = 'http' (or any String value) - for HTTP lib
+const String httpClient = 'http';
+late dynamic weatherJson;
 
 class WeatherApiClient {
   Future<WeatherModel?> getWeather({
     String? city,
     double? latitude,
-    double? longitude,}) async {
+    double? longitude,
+  }) async {
     String url = _getWeatherNowUrl(city, latitude, longitude);
-    final response = await http.get(Uri.parse(url));
+    final response = await _getResponse(httpClient: httpClient, url: url);
 
     if (response.statusCode == 200) {
-      debugPrint('Response body: ${response.body}');
-      final weatherJson = jsonDecode(response.body);
+      httpClient == 'dio' ? weatherJson =
+          response.data :
+      weatherJson = jsonDecode(response.body);
       return WeatherModel.fromJson(weatherJson);
     } else {
       return null;
@@ -30,16 +39,29 @@ class WeatherApiClient {
     String? city,
     double? latitude,
     double? longitude}) async {
-    String url = _getDailyWeatherUrl(city, latitude, longitude);
 
+    String url = _getDailyWeatherUrl(city, latitude, longitude);
     debugPrint('Request URL: $url');
-    final response = await http.get(Uri.parse(url));
+    final response = await _getResponse(httpClient: httpClient, url: url);
 
     if (response.statusCode == 200) {
-      final weatherJson = jsonDecode(response.body);
+      httpClient == 'dio' ? weatherJson =
+          response.data : weatherJson =
+          jsonDecode(response.body);
       return DailyModel.fromForecastJson(weatherJson);
     } else {
       return null;
+    }
+  }
+
+  // Identify request method and return response
+  Future<dynamic> _getResponse({
+    required String httpClient,
+    required String url}) async {
+    if (httpClient == 'dio') {
+      return await Dio().get(url);
+    } else {
+      return await http.get(Uri.parse(url));
     }
   }
 
