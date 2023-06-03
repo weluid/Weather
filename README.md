@@ -69,5 +69,4 @@ enum Managers { httpManager, dioManager }
 [Firebase Crashlytics]: <https://pub.dev/packages/firebase_crashlytics>
 
 
-![IMG_3140](https://github.com/weluid/Weather/assets/IMG_3140.gif)
-
+![](https://github.com/weluid/Weather/assets/IMG_3140.gif)
