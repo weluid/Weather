@@ -70,3 +70,4 @@ enum Managers { httpManager, dioManager }
 
 
 ![](https://github.com/weluid/Weather/assets/IMG_3140.gif)
+![IMG_3140](https://github.com/weluid/Weather/assets/124319560/6d2fa0a5-7de2-4adc-8b1e-558fe632d922)
